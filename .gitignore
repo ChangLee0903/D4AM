@@ -5,7 +5,16 @@ __pycache__/
 
 # C extensions
 *.so
-
+*tar.gz
+results/
+log/
+ckpt/CLSO.pth
+ckpt/SRPR.pth
+ckpt/GCLB.pth
+ckpt/
+# ckpt/D4AM.pth
+ds/models/
+ds/manifests/pros.py
 # Distribution / packaging
 .Python
 build/

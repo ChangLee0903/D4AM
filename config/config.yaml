@@ -1,0 +1,51 @@
+model:
+  DEMUCS:
+    chin: 1
+    chout: 1
+    hidden: 48
+    max_hidden: 10000
+    causal: true
+    glu: true
+    depth: 5
+    kernel_size: 8
+    stride: 4
+    normalize: true
+    resample: 4
+    growth: 2
+    rescale: 0.1
+
+stftloss:
+  factor_sc: 0.5
+  factor_mag: 0.5
+    
+train:
+  gradient_clipping: 1.0 
+  total_steps: 500000                                  # total steps for training, a step is a batch of update
+  eval_step: 2000                                      # save model every this amount of training steps
+  log_step: 100                                        # save model every this amount of training steps
+  hybrid: True
+  optimizer: 
+    SGD:
+      lr: 0.03
+      momentum: 0.9
+      weight_decay: 1.0e-4
+    Adam:
+      lr: 0.0001                                
+      betas: !!python/tuple [0.9, 0.999]
+
+weighter:
+  beta: 0.05
+  update_num: 8
+  alpha: 1
+
+data:
+  acml_batch_size: 16                                         # training batch size
+  batch_size: 2
+  max_length: 96000
+  min_length: 24000
+  speech_path: [../speech_data/LibriSpeech/train-clean-360, ../speech_data/LibriSpeech/train-other-500]
+  corruptor:
+    noise_path: ../noise_data/DNS_noise_pros
+    snr_low: -4
+    snr_high: 6
+    duplicate: True
