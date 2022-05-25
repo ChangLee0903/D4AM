@@ -24,8 +24,8 @@ def argument_parsing():
                         help='Path to experiment configuration.')
     parser.add_argument('--method', type=str, choices=['NOIS', 'INIT', 'CLSO', 'SRPR', 'GCLB', 'D4AM', 'GRID'],
                         default='D4AM')
-    parser.add_argument('--model', type=str, choices=['CONF', 'W2V2', 'RNN', 'TRANS'],
-                        default='TRANS')
+    parser.add_argument('--model', type=str, choices=['CONF', 'W2V2', 'RNN', 'TRAN'],
+                        default='TRAN')
     parser.add_argument('--task', type=str, default='train',
                         choices=['train', 'write', 'test'], help='Task to do.')
     parser.add_argument('--opt', type=str, default='Adam', choices=['SGD', 'Adam'],

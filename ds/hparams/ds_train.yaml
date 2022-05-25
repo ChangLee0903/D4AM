@@ -11,7 +11,7 @@
 seed: 7775
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 output_folder: !ref ds/models/conformer/<seed>
-csv_folder: !ref ds/manifests
+csv_folder: !ref ds/manifests/libri
 wer_file: !ref <output_folder>/wer.txt
 save_folder: !ref <output_folder>/save
 train_log: !ref <output_folder>/train_log.txt
