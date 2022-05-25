@@ -1,6 +1,6 @@
 # D4AM: A General Denoising Framework for Downstream Acoustic Models
 This is the official implementation of D4AM. 
-We will set our repository to public if our paper gets accepted.
+We will set our repository to tbe public if our paper gets accepted.
 The demo page is locally provided in our supplementary materials, and our experiment needs several steps to reproduce the table results, which will be described as follows.
 
 ## Contents
@@ -19,8 +19,8 @@ pip install -r requirements.txt
 
 Before conducting the training process, there are two parts to be set. 
 The first part is the speech and noise path in <code>config/config.yaml</code>. 
-Note that all the training noisy utterances are generated online. 
-Our source noise dataset is provided by [DNS-Challenge](https://github.com/microsoft/DNS-Challenge) and the utterances come from the LibriSpeech corpus. 
+Note that all the noisy utterances for training are generated online. 
+Our source noise dataset is provided by [DNS-Challenge](https://github.com/microsoft/DNS-Challenge), and the utterances come from the LibriSpeech corpus. 
 Check <code>dataset</code> in <code>config/config.yaml</code>:
    <pre><code>data:
     ...
@@ -32,7 +32,7 @@ Check <code>dataset</code> in <code>config/config.yaml</code>:
 <code>speech_path</code> indicates which subsets that are only used as the training data of the regression objective, and <code>noise_path</code> is the noise dataset used to corrupt clean utterances.
 The second part is the wav path in the manifest under <code>ds/manifests/libri</code>.
 e.g. <code>../speech_data/LibriSpeech/train-clean-100</code> should be modified to your own root path of LibriSpeech.
-Note that <code>dev-clean_wham.csv</code> and <code>test-clean_wham.csv</code> are our own mixed validation sets to observe learning curves, which follow the same format of original manifest.
+Note that <code>dev-clean_wham.csv</code> and <code>test-clean_wham.csv</code> are our own mixed validation sets to observe learning curves, which follow the same format of original manifests.
 
 2. Download the pre-training checkpoint (INIT) and downstream recognizers for testing:
 We keep our initial model and the checkpoints of other fine-tuning results in the [link](https://drive.google.com/file/d/1vHJkzB0GSj7YqoD8-Qkqrej9bjQO_fRY/view?usp=sharing).
@@ -44,12 +44,11 @@ Check whether the <code>models</code> folder is put under <code>ds</code> (<code
 Most checkpoints have been provided in the link mentioned in the previous step. 
 You can derive our own model by taking the command: <code>python main.py --task train --method [assigned method]</code>.
 e.g. <code>python main.py --task train --method D4AM</code>.
-Note that you need to specify a alpha value as you want to choose GRID. e.g. <code>python main.py --task train --method GRID --alpha 0.1</code>
+Note that you need to specify an alpha value as you want to choose GRID. e.g. <code>python main.py --task train --method GRID --alpha 0.1</code>
 
 4. Writing enhanced output:
-As you have prepared the checkpoints of all methods. 
-Run <code>bash generate_enhanced_results.sh</code> to generate the corresponding enhanced results.
-Note that you need to specify you own roots of CHIME-4 and Aurora-4 in the script.
+As you have prepared the checkpoints of all methods, run <code>bash generate_enhanced_results.sh</code> to generate the corresponding enhanced results.
+Note that you need to specify your own roots of CHIME-4 and Aurora-4 in the script.
 
 5. Evaluation with various downstream recognizers:
 While you settle down all the enhanced results and downstream recognizers, you can run the following command to testing the performance of enhancement methods:
