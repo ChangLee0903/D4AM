@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 
 ## Steps and Usages
-### 1. Specify pathes of speech and noise datasets:
+### 1. Specify paths of speech and noise datasets:
 Before starting the training process, there are two parts that we need to set the data paths. 
 The first part is the speech and noise path in <code>config/config.yaml</code>. 
 This part is responsible for preparing noisy-clean paired data only.
