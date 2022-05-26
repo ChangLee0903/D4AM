@@ -45,7 +45,7 @@ Users can manually generate their own validation sets by preparing the correspon
 ### 2. Download the checkpoints of SE models and downstream recognizers:
 We keep our initial model and the checkpoints of other fine-tuning results in the [drive link](https://mega.nz/file/QbliGAYI#snRJ3HeEbLAmuuSU0R0BT1xs9uDUrEqKIYxEzFVzrYU).
 Users can decide to train the fine-tuning models individually or directly use our provided checkpoints for inference. 
-All the downstream recognizers described in Section 4.2 can be found [here](https://mega.nz/file/9LkTjIJZ#Xfb_GY3Qipr_nZJbhpe3-PaeV6b9DBCvo0KONZvpETA).
+All the downstream recognizers described in Section 4.2 can be found [here](https://mega.nz/file/tP9jlZIS#wjPxdyE9ClgSsTkdaP22B_wqQcl6FLPw-sJ0WA4e0RU).
 Both of them should be put under the D4AM directory and execute <code>tar zxvf Filename.tar.gz</code>.
 After the file extraction, make sure the pth files of SE models have been put under the <code>ckpt</code> folder (e.g. <code>ckpt/INIT.pth</code>) and the downstream recognizers have been put under the <code>ds</code> folder (e.g. <code>ds/models/conformer</code>).
 <br><br>
