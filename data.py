@@ -85,7 +85,7 @@ class Corruptor:
 
     @ torch.no_grad()
     def corrupt(self, speech):
-            
+
         length = len(speech)
         noise = readfile(random.choice(self.noise_list))
         if noise.ndim > 1:
@@ -97,7 +97,7 @@ class Corruptor:
 
         snr = random.uniform(self.snr_low, self.snr_high)
         scaled_noise = noise_scaling(speech, noise, snr)
-    
+
         noisy = speech + scaled_noise
         return noisy
 
@@ -167,7 +167,7 @@ def get_simpleloader(args):
 def get_trainloader(args, corruptor):
     dataset = DenoisingDataset(
         **args.config['data'], corrupt_agent=corruptor, seed=args.seed)
-    
+
     dataloader = torch.utils.data.DataLoader(
         dataset,
         batch_size=args.config['data']['batch_size'],

@@ -91,7 +91,7 @@ def load_logger(args):
 
     def process_filepath(path):
         if not args.method in path:
-            path += '/{:}'.format(args.method)          
+            path += '/{:}'.format(args.method)
         return path
 
     # build logger directory
@@ -122,12 +122,14 @@ def set_GPU_device(optim):
                         subparam._grad.data = subparam._grad.data.cuda()
     return optim
 
+
 def inject_grad_noise(model, noise_var, lr, momentum):
     for name, param in model.named_parameters():
         if param.grad is not None:
             param.grad.data = param.grad.data + \
                 torch.randn_like(param.grad.data) * noise_var**0.5 * \
                 (1 - momentum)**0.5 / lr * (param.grad.data**2)**0.25
+
 
 def train(args, model, optimizer, se_loader, ds_agent, loss_func, weighter=None, init_step=0):
     # set iterator of denoising dataloader
@@ -182,20 +184,20 @@ def train(args, model, optimizer, se_loader, ds_agent, loss_func, weighter=None,
                 aux_loss = aux_loss / recorder.batch_factor
                 if 'GRID' in args.method:
                     loss = loss + args.alpha * aux_loss
-                else: 
+                else:
                     weighter.accumulate(aux_loss, model)
 
             loss.backward()
             recorder.batch_count += 1
 
             if recorder.is_update():
-                
+
                 # update the parameters of weighter
                 if weighter is not None:
                     weighter.update(model)
                     if args.method in ['D4AM', 'SRPR']:
                         inject_grad_noise(model, 2 * optimizer.param_groups[0]['lr'] * (1 - 0.9) / len(se_loader.dataset),
-                                        optimizer.param_groups[0]['lr'], 0.9)
+                                          optimizer.param_groups[0]['lr'], 0.9)
 
                 # gradient clipping
                 grad_norm = torch.nn.utils.clip_grad_norm_(
@@ -206,7 +208,7 @@ def train(args, model, optimizer, se_loader, ds_agent, loss_func, weighter=None,
                     optimizer.zero_grad()
                     torch.cuda.empty_cache()
                     continue
-                
+
                 alpha = weighter.aux_alpha if weighter is not None else None
                 recorder.accumulate(grad_norm.item(), loss_record, alpha)
                 loss_record = 0

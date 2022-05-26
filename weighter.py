@@ -17,7 +17,7 @@ class Weighter:
         self.update_num = update_num
         self.aux_model_grad = None
         self.method = method
-            
+
     def accumulate(self, aux_loss, model):
         aux_model_grad = list(
             grad(aux_loss, model.parameters(), retain_graph=True, allow_unused=True))
@@ -40,18 +40,19 @@ class Weighter:
             alpha = self.aux_alpha
         elif self.method == 'GCLB':
             alpha = proj_alpha
-        
+
         for gm, ga in zip(main_model_grad, self.aux_model_grad):
             gm.add_(alpha * ga)
-        
+
         self.aux_model_grad = None
         if self.method in ['D4AM', 'SRPR']:
             self.update_aux_alpha(proj_alpha, dot, ga_sqr)
 
     @ torch.no_grad()
-    def update_aux_alpha(self, proj_alpha, dot, ga_sqr):    
+    def update_aux_alpha(self, proj_alpha, dot, ga_sqr):
         self.step_count += 1
-        self.aux_alpha_grad += -2 * (dot + proj_alpha * ga_sqr) + 2 * self.aux_alpha * ga_sqr    
+        self.aux_alpha_grad += -2 * \
+            (dot + proj_alpha * ga_sqr) + 2 * self.aux_alpha * ga_sqr
         if self.step_count == self.update_num:
             g = self.aux_alpha_grad / self.update_num
             alpha_step = max(-1, min(1.0, - self.beta * g))

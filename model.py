@@ -43,7 +43,7 @@ class WaveformDenoiseModel(torch.nn.Module):
         if args.model == 'DEMUCS':
             from denoiser.demucs import Demucs as DEMUCS
             self.ae_model = DEMUCS(**args.config['model']['DEMUCS'])
-       
+
         assert args.init_ckpt is not None
         self.load_state_dict(torch.load(args.init_ckpt)['Model'])
 

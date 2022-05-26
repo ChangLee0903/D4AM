@@ -40,7 +40,8 @@ def argument_parsing():
         '--ckpt', type=str, help="Path to load target model")
     parser.add_argument('--init_ckpt', type=str, default='ckpt/INIT.pth',
                         help="Path to load source pretrain model")
-    parser.add_argument('--test_set', type=str, default='chime', choices=['chime', 'aurora'])
+    parser.add_argument('--test_set', type=str,
+                        default='chime', choices=['chime', 'aurora'])
     parser.add_argument('--ds_train_conf', type=str, default='ds/hparams/ds_train.yaml',
                         help="The path to get asr configuration.")
     parser.add_argument('--out', type=str,
@@ -64,7 +65,7 @@ def argument_parsing():
     parser.add_argument('--continue_log', action='store_true')
     parser.add_argument('--test_root', type=str)
     parser.add_argument('--output_dir', type=str)
-    
+
     args = parser.parse_args()
     args.config = f'config/config.yaml'
     args.config = yaml.load(open(args.config, 'r'), Loader=yaml.FullLoader)
@@ -86,14 +87,14 @@ def main():
     if args.task == 'train':
         from data import get_trainloader, Corruptor
         from ds.agent import DownstreamAgent
-        
+
         # construct corruptor
         corruptor = Corruptor(
             **args.config['data']['corruptor'], seed=args.seed)
 
         # build downtream agent to get classification objective
         ds_agent = DownstreamAgent(args, corruptor)
-           
+
         # set dataloader
         print("[DataLoder] - Preparing dataset for the denoising task")
         se_loader = get_trainloader(args, corruptor)
@@ -113,10 +114,9 @@ def main():
                 args.config['weighter']['alpha'] = args.alpha
             from weighter import Weighter
             weighter = Weighter(**args.config['weighter'], method=args.method)
-        
+
         # process training
         from train import train
-        # with torch.backends.cudnn.flags(enabled=False):
         train(args, model, optimizer, se_loader,
               ds_agent, loss_func, weighter, init_step)
 
@@ -133,8 +133,8 @@ def main():
             assert args.ckpt is not None
             model, _, _ = load_model(args)
             write_wav(args, model, simple_loader)
-        # write_csv(args)
-        
+        write_csv(args)
+
     elif args.task == 'test':
         from ds.eval import ASREvaluator
         evaluator = ASREvaluator(args)
@@ -142,6 +142,7 @@ def main():
             evaluator.eval_chime()
         elif args.test_set == 'aurora':
             evaluator.eval_aurora()
+
 
 if __name__ == '__main__':
     main()

@@ -21,7 +21,7 @@ stftloss:
 train:
   gradient_clipping: 1.0 
   total_steps: 500000                                  # total steps for training, a step is a batch of update
-  eval_step: 2000                                      # save model every this amount of training steps
+  eval_step: 200                                      # save model every this amount of training steps
   log_step: 100                                        # save model every this amount of training steps
   hybrid: True
   optimizer: 
@@ -40,7 +40,7 @@ weighter:
 
 data:
   acml_batch_size: 16                                         # training batch size
-  batch_size: 2
+  batch_size: 8
   max_length: 96000
   min_length: 24000
   speech_path: [../speech_data/LibriSpeech/train-clean-360, ../speech_data/LibriSpeech/train-other-500]
