@@ -141,7 +141,7 @@ class SimpleDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         path = self.signal_list[idx]
-        sig = readfile(self.signal_list[idx], norm=True)
+        sig = readfile(path, norm=True)
         return sig, path
 
     def collate_fn(self, data):
