@@ -10,7 +10,7 @@ def save_model(model, optimizer, args, current_step):
         'Current_step': current_step,
         'Args': args
     }
-    torch.save(all_states, args.ckptdir)
+    torch.save(all_states, f'{args.ckptdir}/{args.model}.pth')
 
 
 def load_model(args):
