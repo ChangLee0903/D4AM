@@ -147,11 +147,6 @@ seq_lin: &id004 !new:speechbrain.nnet.linear.Linear
   input_size: 768
   n_neurons: 5000
 
-modules:
-  CNN: *id002
-  Transformer: *id003
-  seq_lin: *id004
-  ctc_lin: *id005
 model: &id007 !new:torch.nn.ModuleList
 - [*id002, *id003, *id004, *id005]
 Adam: !name:torch.optim.Adam
@@ -163,35 +158,6 @@ SGD: !name:torch.optim.SGD
   lr: 0.000025
   momentum: 0.99
   nesterov: true
-
-valid_search: !new:speechbrain.decoders.S2STransformerBeamSearch
-  modules: [*id003, *id004, *id005]
-  bos_index: 1
-  eos_index: 2
-  blank_index: 0
-  min_decode_ratio: 0.0
-  max_decode_ratio: 1.0
-  beam_size: 10
-  ctc_weight: 0.40
-  using_eos_threshold: false
-  length_normalization: false
-
-
-test_search: !new:speechbrain.decoders.S2STransformerBeamSearch
-  modules: [*id003, *id004, *id005]
-  bos_index: 1
-  eos_index: 2
-  blank_index: 0
-  min_decode_ratio: 0.0
-  max_decode_ratio: 1.0
-  beam_size: 66
-  ctc_weight: 0.40
-  lm_weight: 0.60
-  lm_modules: *id006
-  temperature: 1.15
-  temperature_lm: 1.15
-  using_eos_threshold: false
-  length_normalization: true
 
 log_softmax: !new:torch.nn.LogSoftmax
   dim: -1
@@ -222,8 +188,14 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
 
       limit: 110
 
+modules:
+  CNN: *id002
+  Transformer: *id003
+  seq_lin: *id004
+  ctc_lin: *id005
+  normalize: *id010
+
 epoch_counter: *id009
-normalize: *id010
 augmentation: !new:speechbrain.lobes.augment.SpecAugment
   time_warp: true
   time_warp_window: 5

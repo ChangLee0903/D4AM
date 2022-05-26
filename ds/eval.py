@@ -50,7 +50,7 @@ def dataio_prepare(hparams, method='D4AM', dataset='chime', model='TRANS'):
             "wrd", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
         )
         def text_pipeline(wrd):
-            wrd = wrd.replace('.', '').replace('/', '')
+            wrd = wrd.replace('.', '')
             yield wrd
             tokens_list = tokenizer.encode_as_ids(wrd)
             yield tokens_list
@@ -71,7 +71,7 @@ def dataio_prepare(hparams, method='D4AM', dataset='chime', model='TRANS'):
             "wrd", "char_list", "tokens_list", "tokens_bos", "tokens_eos", "tokens"
         )
         def text_pipeline(wrd):
-            wrd = wrd.replace('.', '').replace('/', '')
+            wrd = wrd.replace('.', '')
             yield wrd
             char_list = list(wrd)
             yield char_list
@@ -155,6 +155,13 @@ class ASREvaluator:
         self.model = args.model
 
     @ torch.no_grad()
+    def to_cuda(self):
+        self.modules = self.modules.cuda()
+        if self.parallel:
+            self.modules.Transformer = torch.nn.DataParallel(
+                self.modules.Transformer)
+
+    @ torch.no_grad()
     def load_data(self, batch):
         wavs, lens = batch.sig
         tokens, tokens_lens = batch.tokens
@@ -203,11 +210,13 @@ class ASREvaluator:
         ]
         return predicted_words
     
-    def TRANS_predict(self, wavs, wav_lens, tokens_bos):
+    def TRAN_predict(self, wavs, wav_lens, tokens_bos):
+        self.modules.normalize.to(wavs.device)
+        
         # compute features
         feats = self.hparams.compute_features(wavs)
         current_epoch = self.hparams.epoch_counter.current
-        feats = self.hparams.normalize(feats, wav_lens, epoch=current_epoch)
+        feats = self.modules.normalize(feats, wav_lens, epoch=current_epoch)
 
         # forward modules
         src = self.hparams.CNN(feats)
