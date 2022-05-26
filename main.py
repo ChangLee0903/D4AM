@@ -138,6 +138,7 @@ def main():
     elif args.task == 'test':
         from ds.eval import ASREvaluator
         evaluator = ASREvaluator(args)
+        evaluator.to_cuda()
         if args.test_set == 'chime':
             evaluator.eval_chime()
         elif args.test_set == 'aurora':
