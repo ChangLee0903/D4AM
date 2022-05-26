@@ -21,7 +21,7 @@ stftloss:
 train:
   gradient_clipping: 1.0 
   total_steps: 500000                                  # total steps for training, a step is a batch of update
-  eval_step: 200                                      # save model every this amount of training steps
+  eval_step: 2000                                      # save model every this amount of training steps
   log_step: 100                                        # save model every this amount of training steps
   hybrid: True
   optimizer: 
