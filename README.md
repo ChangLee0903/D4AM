@@ -1,6 +1,6 @@
 # D4AM: A General Denoising Framework for Downstream Acoustic Models
 <p align="center">
-<img src="http://i.imgur.com/ysi9lu2.jpg" height="240"><img src="http://i.imgur.com/b8CFWsn.jpg" height="260">
+<img src="http://i.imgur.com/ysi9lu2.jpg" height="250"><img src="http://i.imgur.com/b8CFWsn.jpg" height="270">
 </p>
 
 This is the official implementation of D4AM. 
