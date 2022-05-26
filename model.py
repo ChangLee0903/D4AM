@@ -10,17 +10,11 @@ def save_model(model, optimizer, args, current_step):
         'Current_step': current_step,
         'Args': args
     }
-    torch.save(all_states, f'{args.ckptdir}/{args.model}.pth')
+    torch.save(all_states, f'{args.ckptdir}/{args.method}.pth')
 
 
 def load_model(args):
-    if args.ckpt is not None:
-        args.model = torch.load(args.ckpt, map_location='cpu')['Args'].model
-    elif args.init_ckpt is not None:
-        args.model = torch.load(args.init_ckpt, map_location='cpu')[
-            'Args'].model
-
-    print(f'[MODEL] - Building {args.model} model')
+    print(f'[MODEL] - Building model')
     model = WaveformDenoiseModel(args)
     optimizer = eval(f'torch.optim.{args.opt}')(model.parameters(),
                                                 **args.config['train']['optimizer'][args.opt])
@@ -40,9 +34,8 @@ def load_model(args):
 class WaveformDenoiseModel(torch.nn.Module):
     def __init__(self, args, **kwargs):
         super(WaveformDenoiseModel, self).__init__()
-        if args.model == 'DEMUCS':
-            from denoiser.demucs import Demucs as DEMUCS
-            self.ae_model = DEMUCS(**args.config['model']['DEMUCS'])
+        from denoiser.demucs import Demucs as DEMUCS
+        self.ae_model = DEMUCS(**args.config['model']['DEMUCS'])
 
         assert args.init_ckpt is not None
         self.load_state_dict(torch.load(args.init_ckpt)['Model'])
