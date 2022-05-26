@@ -84,7 +84,7 @@ wav2vec2: &id002 !new:speechbrain.lobes.models.huggingface_wav2vec.HuggingFaceWa
   source: facebook/wav2vec2-large-960h-lv60-self
   output_norm: true
   freeze: true
-  save_path: ds/asr/results/wav2vec2/1986/save/wav2vec2_checkpoint
+  save_path: ds/models/wav2vec2/1986/save/wav2vec2_checkpoint
 
 #####
 # Uncomment this block if you prefer to use a Fairseq pretrained model instead
