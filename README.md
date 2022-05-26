@@ -1,4 +1,8 @@
 # D4AM: A General Denoising Framework for Downstream Acoustic Models
+<p align="center">
+<img src="http://i.imgur.com/ysi9lu2.jpg" height="250"><img src="http://i.imgur.com/b8CFWsn.jpg" height="270">
+</p>
+
 This is the official implementation of D4AM. 
 We will set our repository to the public if our paper gets accepted.
 The demo page is locally provided in our supplementary materials, and our source code is provided in this anonymous Github repository.
@@ -12,7 +16,6 @@ Next, we will describe how to run our experiments in the following description.
 ## Installation
 Note that our environment is in ```Python 3.8.12```. To run the experiment of D4AM, you can copy our repository and install it by using the pip tool:
 ```bash
-# Install all the necessary packages
 pip install -r requirements.txt
 ```
 
