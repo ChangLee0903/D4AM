@@ -188,6 +188,8 @@ class ASREvaluator:
         return predicted_words
 
     def RNN_predict(self, wavs, wav_lens, tokens_bos):
+        self.modules.normalize.to(wavs.device)
+        
         # Forward pass
         feats = self.hparams.compute_features(wavs)
         feats = self.modules.normalize(feats, wav_lens)
